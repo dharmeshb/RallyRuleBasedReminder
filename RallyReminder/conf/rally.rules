@@ -1,0 +1,42 @@
+//first line should be a valid release name + emailid and remaining should be rules. Ex Product 1,Product 1.1-emailid1,emailid2
+//For next group just draw a line separator as ------------------
+//Use notepad to edit this file
+//Rule is made of two sections 1st condition:2nd message Example DEFECT_STATE != BLANK AND OWNER == BLANK,Owner is missing
+//Rule should end with a message after ,. You can use () in condition and also 'AND' or 'OR'
+//BLANK is a keyword for this application, it means value as null, or with spaces, or none. Rally API does return none as value for fields which are not filled.
+//Every group should be seperated with ----------- line and it must be the last line of rule file in any case.
+//If you dont have action for some rule and you want to apply rule on every defect, just use ID!=BLANK or Simply true in condition will also work. Since ID can not be blanked all defects will be considered here.
+//You cant use space in condition for fields or values. It should be replaced with _ . Example: DEFECT_STATE != BLANK
+//Every identifier should be seperated with space in condition. Example: DEFECT_STATE != FixMade AND OWNER == Dharmesh_Borad AND (BLOCKED == false OR BLOCKED_REASON == BLANK)
+//You can also put as many inner conditions you want with ( ), no limit.
+
+//4.0
+//Now you can fetch all defects(no limit of 200) and also from Project instead of release only.
+//First line of any rule group can be RleaseName1,Release2-email1,email2-1-1-1 ()
+//Or first line of any rule group can be Project1,Project2-email1,email2-emailn-0-1-1 (last three value indicates Release/Project-new_defects_section-blocked_defect_section). Release = 0, Project = 1, new defects show = 1, hide = 0 etc.
+//Project may have sub projects and if you want to include them for your query you can use 0C first parameter.
+//Example: ProjectX-Emailid1-0C-0-0
+//You can also use {RALLYFIELDNAME} in your rule message. This will print value from that field inside your message. Example: SCHEDULE_STATE == Done, Defect is done {SUBMITTED BY},{OWNER}
+
+//5.0
+//One more optional parameter is added to support grouping by rally field
+//you only need to add rally field name for sub grouping in email. Example : Release 4.5-dharmesh.borad@gmail.com-0C-0-0-Submitted By
+
+Project West 3.4-dharmesh.borad@gmail.com-0C-0-0
+DEFECT_STATE == FixMade AND FIXED_IN_BUILD == BLANK,Found In Build should not be blank when state is fix made
+DEFECT_STATE == FixVerified AND VERIFIED_IN_BUILD == BLANK,Verified In Build should not be blank when state is fix verified
+DEFECT_STATE == FixMade AND TARGET_BUILD == BLANK,Target Build should not be blank when state is fix made
+ID != BLANK AND PLAN_EST == BLANK,Plan Estimation can no be blank
+ID != BLANK AND FOUND_IN_ITERATION == BLANK,Found In Iteration is missing
+ID != BLANK AND FOUND_IN_RELEASE == BLANK,Found In Release is missing
+ID != BLANK AND OWNER == BLANK,Owner is missing
+DEFECT_STATE == FixMade AND (RESOLUTION == BLANK OR RESOLUTION_DESCRIPTION == BLANK),Resolution should not be blank when state is fix made
+RESOLUTION == Configuration_Change AND RESOLUTION_DESCRIPTION == BLANK, Resolution Description should not be blank when resolution is configuration change
+DEFECT_STATE == FixVerified AND SCHEDULE_STATE != Done,Schedule State is not 'done' yet when state is fix verified
+ID != BLANK AND SCRIPT_REFERENCE == BLANK,Script Reference is missing
+BLOCKED == true AND BLOCKED_REASON == BLANK,Blocked Reason can not blank if defect is in blocked state
+-----------------
+Project East 10.2-dharmesh.borad@gmail.com-1-0-0-Owner
+ID != BLANK AND SCRIPT_REFERENCE == BLANK,SCRIPT is missing {ASSIGNEDSQE}
+ID != BLANK AND SCHEDULE_STATE == Done, Defect is done {SUBMITTED BY} {OWNER}
+-----------------
