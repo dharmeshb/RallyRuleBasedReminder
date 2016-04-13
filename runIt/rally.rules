@@ -1,0 +1,4 @@
+//Check RallyReminder->conf->rally.rules file for more details on rule file.
+RallyProjectName-emailId-0-0-0-Submitted By
+FOUND_IN_RELEASE == BLANK,Found In Release should not be blank
+-----------------
