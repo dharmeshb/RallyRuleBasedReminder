@@ -11,7 +11,7 @@ public class RallyDefect extends RallyObject {
 	private String name;
 	
 	private String resDesc;
-	private String tragetBuild;
+	private String targetBuild;
 	private String fixedInBuild;
 	private String verifiedBuild;
 	private String whatChanged;
@@ -34,6 +34,9 @@ public class RallyDefect extends RallyObject {
 	private String submittedBy;
 	private String assignedSQE;
 	private String severity;
+	private String iteration;
+	private String release;
+	
 	
 	public String getGroupByKey(String groupByKeyField){
 		String val = getValueOfFieldStr(groupByKeyField);
@@ -53,7 +56,7 @@ public class RallyDefect extends RallyObject {
 	public String getMissingInfoForSQEReport(){
 		
 		String validation = (notOwnerSet()?"Owner is missing<br/>":"")
-				+(isBuildMissingForFixedMade(tragetBuild)?"Target In Build is missing<br/>":"")
+				+(isBuildMissingForFixedMade(targetBuild)?"Target In Build is missing<br/>":"")
 				+(isBuildMissingForFixedMade(verifiedBuild)?"Verified In Build is missing<br/>":"")
 				+(notScheduleCompletedWhenFixedMade()?"Schedule should be Completed when fix made<br/>":"")
 				+(notScheduleDoneWhenFixedVerified()?"Schedule should be Done when fix verified<br/>":"")
@@ -215,6 +218,12 @@ public class RallyDefect extends RallyObject {
 		}
 		if(message.toLowerCase().contains("{DESCRIPTION}".toLowerCase())){
 			message = message.replace("{DESCRIPTION}", getName()!=null?getName():"No DESCRIPTION");
+		}
+		if(message.toLowerCase().contains("{ITERATION}".toLowerCase())){
+			message = message.replace("{ITERATION}", getIteration()!=null?getIteration():"No ITERATION");
+		}
+		if(message.toLowerCase().contains("{RELEASE}".toLowerCase())){
+			message = message.replace("{RELEASE}", getRelease()!=null?getRelease():"No RELEASE");
 		}
 		
 		return message;
@@ -452,11 +461,11 @@ public class RallyDefect extends RallyObject {
 		if(field.equalsIgnoreCase("DEFECT STATE"))
 			return ifEmptyMakeEmpty(state);
 		else if(field.equalsIgnoreCase("FIXED IN BUILD"))
-			return ifEmptyMakeEmpty(foundInIteration);
+			return ifEmptyMakeEmpty(fixedInBuild);
 		else if(field.equalsIgnoreCase("VERIFIED IN BUILD"))
 			return ifEmptyMakeEmpty(verifiedBuild);
 		else if(field.equalsIgnoreCase("TARGET BUILD"))
-			return ifEmptyMakeEmpty(tragetBuild);
+			return ifEmptyMakeEmpty(targetBuild);
 		else if(field.equalsIgnoreCase("ID"))
 			return ifEmptyMakeEmpty(ID);
 		else if(field.equalsIgnoreCase("PLAN EST"))
@@ -485,6 +494,10 @@ public class RallyDefect extends RallyObject {
 			return ifEmptyMakeEmpty(submittedBy);
 		else if(field.equalsIgnoreCase("SEVERITY"))
 			return ifEmptyMakeEmpty(severity);
+		else if(field.equalsIgnoreCase("ITERATION"))
+			return ifEmptyMakeEmpty(iteration);
+		else if(field.equalsIgnoreCase("RELEASE"))
+			return ifEmptyMakeEmpty(release);
 		
 		return "-1";
 	}
@@ -643,12 +656,6 @@ public class RallyDefect extends RallyObject {
 	public void setResDesc(String resDesc) {
 		this.resDesc = resDesc;
 	}
-	public String getTargetBuild() {
-		return tragetBuild;
-	}
-	public void setTragetBuild(String tragetBuild) {
-		this.tragetBuild = tragetBuild;
-	}
 	public String getWhatChanged() {
 		return whatChanged;
 	}
@@ -669,6 +676,30 @@ public class RallyDefect extends RallyObject {
 
 	public void setSeverity(String severity) {
 		this.severity = severity;
+	}
+
+	public String getTargetBuild() {
+		return targetBuild;
+	}
+
+	public void setTargetBuild(String targetBuild) {
+		this.targetBuild = targetBuild;
+	}
+
+	public String getIteration() {
+		return iteration;
+	}
+
+	public void setIteration(String iteration) {
+		this.iteration = iteration;
+	}
+
+	public String getRelease() {
+		return release;
+	}
+
+	public void setRelease(String release) {
+		this.release = release;
 	}
 	
 }
