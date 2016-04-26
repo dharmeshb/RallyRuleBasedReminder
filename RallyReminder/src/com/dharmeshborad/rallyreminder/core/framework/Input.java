@@ -16,7 +16,14 @@ public class Input {
 	private boolean showNewDefectSection=false;
 	private boolean showBlockedDefectSection=false;
 	private String groupBy;
+	private String customMessage;
 	
+	public String getCustomMessage() {
+		return customMessage;
+	}
+	public void setCustomMessage(String customMessage) {
+		this.customMessage = customMessage;
+	}
 	public String getGroupBy() {
 		return groupBy;
 	}

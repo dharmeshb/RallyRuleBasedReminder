@@ -87,7 +87,7 @@ public class MyJSONParser {
 	
 	private static void prepareDefect(RallyDefect rd, JSONObject defect) throws Exception{
 		rd.setID((String) defect.get("FormattedID"));
-		rd.setTragetBuild((String) defect.get("TargetBuild"));
+		rd.setTargetBuild((String) defect.get("TargetBuild"));
 		rd.setFixedInBuild((String) defect.get("FixedInBuild"));
 		rd.setWhatChanged((String) defect.get("Resolution"));
 		rd.setResDesc((String) defect.get("c_ResolutionDescription"));
@@ -113,6 +113,10 @@ public class MyJSONParser {
 		rd.setFoundInIteration(defect.get("c_FoundInIteration")+"");
 		rd.setAssignedSQE(defect.get("c_AssignedSQE")+"");
 		rd.setSeverity(defect.get("Severity")+"");
+		rd.setIteration(defect.get("Iteration")+"");
+		JSONObject release = (JSONObject)defect.get("Release");
+		if(release!=null)
+			rd.setRelease((String) release.get("_refObjectName"));
 	}
 	
 	

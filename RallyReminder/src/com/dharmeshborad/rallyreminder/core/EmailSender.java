@@ -19,7 +19,7 @@ public class EmailSender {
 
 	public void sendMail(String subject, String message, String receivers) {
 		final Properties props = new Properties();
-		props.put("mail.smtp.host", "smtp.server.com"); //Put your smtp server provider
+		props.put("mail.smtp.host", "smtp.server.com");  //Put your smtp server provider
 		props.put("mail.from", "no-reply@no.reply");
 		final Session session = Session.getInstance(props, null);
 

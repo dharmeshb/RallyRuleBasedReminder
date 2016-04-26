@@ -88,6 +88,10 @@ public class SQEExecutorConfigurable {
 				System.out.println();
 				firstLine=false;
 				readLine = br.readLine();
+				if(readLine.contains("[")){
+					res.setCustomMessage(readLine.substring(1, readLine.indexOf("]")-1));
+					readLine = br.readLine();
+				}
 				continue;
 			}
 			
@@ -260,12 +264,19 @@ public class SQEExecutorConfigurable {
 	
 	private static void sendEmailOut(Map<ReleaseOrProject,List<RallyDefect>> resultMap, Input input){
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm");
 		Set<ReleaseOrProject> keys = resultMap.keySet();
 		Iterator<ReleaseOrProject> it = keys.iterator();
 		List<String> sbS1Lst = new ArrayList<>();
 		SortedMap<String, StringBuilder> groupByMain = new TreeMap<>();
 		StringBuilder sbMainList = new StringBuilder("RallyProgram Rule Results:<br/><br/>");
+		
+		if(input.getCustomMessage()!=null && !input.getCustomMessage().isEmpty()){
+			sbMainList.append("\"");
+			sbMainList.append(input.getCustomMessage());
+			sbMainList.append("\"");
+			sbMainList.append("<br/><br/>");
+		}
 		
 		List<String> sbS2Lst = new ArrayList<>();
 		StringBuilder sbS2NewDefects = new StringBuilder();
